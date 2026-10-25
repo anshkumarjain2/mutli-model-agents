@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+backend/venv/
+venv/
+.env.local
+
+# Python cache & artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Local databases (don't commit local SQLite binary)
+*.db
+backend/office_memory.db
+
+# Production builds
+dist/
+build/
+.vercel
