@@ -485,7 +485,11 @@ const WAYPOINTS = {
   presentationBoard: new THREE.Vector3(10, 0, -2),
 };
 
-const API_BASE = import.meta.env.VITE_API_URL || "https://mutli-model-agents-1.onrender.com/";
+const API_BASE =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? "http://localhost:8000"
+    : (import.meta.env.VITE_API_URL || "https://mutli-model-agents-1.onrender.com").replace(/\/$/, "");
 
 // Web Audio sound generator
 const playChime = (type = "send") => {
@@ -1030,7 +1034,7 @@ What directive shall we dispatch first?`,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           provider: "gemini",
-          model: "gemini-3.8-flash",
+          model: "gemini-2.5-flash",
           target_agent_id: currentAssignee.backendId,
           instruction: textToSend,
         }),
