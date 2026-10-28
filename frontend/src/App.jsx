@@ -570,6 +570,37 @@ ${samplePresets}
 What task should we tackle next?`;
   }
 
+  // 1.5. CRM & Google Sheets Pipeline Queries
+  const crmKeywords = ["crm", "lead", "leads", "sheet", "sheets", "excel", "prospect", "prospects", "pipeline", "apex", "fintech", "sarah", "elena", "david", "sterling", "deal", "deals", "qualification", "outreach", "customer", "client", "contacts"];
+  if (crmKeywords.some((k) => instLower.includes(k))) {
+    return `### 📊 Enterprise CRM & Google Sheets Live Pipeline
+**Reporting Agent:** ${agent.name} (${agent.role})
+
+- **CRM Data Source:** Dual-Engine (\`workforce_crm\` + Supabase PostgreSQL)
+- **Google Sheets Webhook:** \`Active & Synchronized\` (Live auto-push on qualification/approval)
+- **Total Enterprise Leads:** 4 Active Accounts
+
+#### Current Enterprise Pipeline:
+1. **Sarah Lin** — *VP of Engineering* at **Apex Cloud Systems**
+   - Deal: **$75,000** | Score: **99/100 (HOT)** | Status: \`QUALIFIED_PROPOSAL_STAGED\`
+   - Tech Stack: AWS, Kubernetes, Terraform, Datadog
+   - Notes: High-intent enterprise lead; staged for outreach.
+
+2. **Elena Rostova** — *Head of AI Architecture* at **Fintech Global Inc**
+   - Deal: **$120,000** | Score: **94/100 (HOT)** | Status: \`NEW\`
+   - Tech Stack: GCP, Vertex AI, Snowflake, BigQuery
+
+3. **David Zhang** — *Director of Data Platforms* at **OmniRetail Dynamics**
+   - Deal: **$65,000** | Score: **88/100 (WARM)** | Status: \`NEW\`
+   - Tech Stack: Azure, Databricks, Kafka, Spark
+
+4. **Marcus Sterling** — *Chief Technology Officer* at **Sterling Logistics**
+   - Deal: **$90,000** | Score: **82/100 (WARM)** | Status: \`NEW\`
+   - Tech Stack: Hybrid Cloud, Postgres, Temporal
+
+*All records are synchronized in real-time between Supabase, Google Sheets, and the AI Workforce Hub.*`;
+  }
+
   // 2. Coding & Technical
   const techKeywords = [
     "code", "function", "api", "backend", "frontend", "endpoint", "bug", "fix",

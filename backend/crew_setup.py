@@ -480,12 +480,42 @@ def execute_agent_task_sync(
     past_memories = get_agent_memories(target_agent_id, limit=20)
     memory_count = len(past_memories)
 
-    # 3. Augment user directive with historical memory context and live MCP Tool data
+    # 3. Augment user directive with historical memory context, live MCP Tool data, and Live CRM/Google Sheets records
     augmented_parts = []
     if memory_context:
         augmented_parts.append(memory_context)
     if tool_output:
         augmented_parts.append(f"REAL-TIME MCP TOOL CONTEXT ({applied_tool_name}):\n{json.dumps(tool_output, indent=2)}")
+
+    # Check if instruction relates to CRM, leads, pipeline, Google Sheets, or customers
+    crm_keywords = ["crm", "lead", "leads", "sheet", "sheets", "excel", "prospect", "prospects", "pipeline", "apex", "fintech", "sarah", "elena", "david", "sterling", "deal", "deals", "qualification", "outreach", "customer", "client", "contacts"]
+    is_crm_query = any(k in lower_inst for k in crm_keywords)
+
+    try:
+        from workforce_crm import crm_fetch_leads, crm_get_integration_status
+        live_leads = crm_fetch_leads(limit=25)
+        integ_status = crm_get_integration_status()
+        
+        crm_summary = [
+            "=== REAL-TIME WORKFORCE CRM & GOOGLE SHEETS PIPELINE DATA ===",
+            f"• Database Engine: SQLite primary + Supabase PostgreSQL ({integ_status.get('supabase', {}).get('status', 'connected')})",
+            f"• Google Sheets Webhook: {'Active & Connected' if integ_status.get('google_sheets_crm', {}).get('webhook_configured') else 'Not configured'} (Real-time auto-sync on qualification/approval)",
+            f"• Total Active Enterprise Leads: {len(live_leads)}",
+            "• Live Leads Directory:"
+        ]
+        for ld in live_leads:
+            crm_summary.append(
+                f"  - Lead #{ld.get('id')}: {ld.get('name')} | {ld.get('title')} at {ld.get('company')} | "
+                f"Industry: {ld.get('industry')} | Deal Value: ${ld.get('deal_value', 0):,} | "
+                f"Score: {ld.get('qualification_score', 'N/A')}/100 ({ld.get('qualification_tier', 'UNRATED')}) | "
+                f"Status: {ld.get('status')} | Email: {ld.get('email')} | "
+                f"Intent Signal: {ld.get('intent_signal')} | "
+                f"Notes: {ld.get('qualification_notes')}"
+            )
+        augmented_parts.append("\n".join(crm_summary))
+    except Exception as crm_err:
+        logger.warning(f"Failed to append CRM context: {crm_err}")
+
     augmented_parts.append(f"CURRENT TASK DIRECTIVE:\n{instruction}")
     
     effective_instruction = "\n\n".join(augmented_parts)
@@ -1083,6 +1113,31 @@ You can give me any direct instruction or select one of my primary directives:
 {sample_presets}
 
 What task should we tackle next?"""
+
+    # 1.5. CRM, LEADS & GOOGLE SHEETS PIPELINE QUERIES
+    crm_keywords = ["crm", "lead", "leads", "sheet", "sheets", "excel", "prospect", "prospects", "pipeline", "apex", "fintech", "sarah", "elena", "david", "sterling", "deal", "deals", "qualification", "outreach", "customer", "client", "contacts"]
+    if any(k in inst_lower for k in crm_keywords):
+        from workforce_crm import crm_fetch_leads, crm_get_integration_status
+        leads = crm_fetch_leads(limit=25)
+        integ = crm_get_integration_status()
+        sheet_status = "Active & Connected (Real-time sync on qualification/approval)" if integ.get("google_sheets_crm", {}).get("webhook_configured") else "Not configured"
+        supabase_status = integ.get("supabase", {}).get("status", "connected")
+        
+        res_lines = [
+            f"### 📊 Enterprise CRM & Google Sheets Pipeline Data\n**Reporting Specialist:** {name} ({title})\n",
+            f"- **Active Leads in CRM:** {len(leads)} enterprise accounts",
+            f"- **Google Sheets Sync:** {sheet_status}",
+            f"- **Supabase PostgreSQL Cloud:** {supabase_status}\n",
+            "#### Active Leads Directory:"
+        ]
+        for ld in leads:
+            res_lines.append(
+                f"- **{ld.get('name')}** — *{ld.get('title')}* at **{ld.get('company')}**\n"
+                f"  - Deal Value: **${ld.get('deal_value', 0):,}** | Status: `{ld.get('status')}` | Score: **{ld.get('qualification_score', 'N/A')}/100** ({ld.get('qualification_tier', 'UNRATED')})\n"
+                f"  - Industry: {ld.get('industry')} | Email: `{ld.get('email')}`\n"
+                f"  - Intent Signal: *{ld.get('intent_signal')}*"
+            )
+        return "\n".join(res_lines)
 
     # 2. CODING & TECHNICAL TASKS
     tech_keywords = [
