@@ -1,0 +1,12 @@
+node_modules
+.git
+.github
+*.db
+backend/office_memory.db
+backend/workforce_crm.db
+.env
+backend/.env
+venv
+backend/venv
+__pycache__
+*.pyc

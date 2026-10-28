@@ -100,8 +100,21 @@ class WorkflowApproveRequest(BaseModel):
     feedback: Optional[str] = Field(default=None, description="Optional supervisor feedback or rejection note")
 
 
+from fastapi.responses import FileResponse
+from starlette.staticfiles import StaticFiles
+
+frontend_dist_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "dist")
+index_html_file = os.path.join(frontend_dist_path, "index.html")
+assets_dir = os.path.join(frontend_dist_path, "assets")
+
+if os.path.exists(assets_dir):
+    app.mount("/assets", StaticFiles(directory=assets_dir), name="frontend_assets")
+
+
 @app.get("/")
 def root():
+    if os.path.exists(index_html_file):
+        return FileResponse(index_html_file)
     stats = get_memory_stats()
     return {
         "status": "online",
@@ -116,6 +129,7 @@ def root():
             "memory_stats": "/api/memories/stats",
         },
     }
+
 
 
 @app.get("/health")
@@ -454,7 +468,16 @@ def trigger_google_sheets_sync():
     }
 
 
+from starlette.staticfiles import StaticFiles
+
+# Serve production Vite frontend if dist/ exists
+frontend_dist_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "frontend", "dist")
+if os.path.exists(frontend_dist_path):
+    app.mount("/", StaticFiles(directory=frontend_dist_path, html=True), name="frontend_static")
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
