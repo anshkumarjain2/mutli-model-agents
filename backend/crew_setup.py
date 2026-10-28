@@ -380,8 +380,7 @@ def execute_via_provider_sdk(provider: str, model_name: str, api_key: str, agent
             return resp.content[0].text
 
         elif "gemini" in provider_clean or "google" in provider_clean:
-            # Cascade through high-availability fast models to ensure instant responses with no 503 or timeouts
-            candidate_models = ["gemini-2.5-flash", "gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.8-flash"]
+            candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-pro"]
             if model_name and model_name not in candidate_models:
                 candidate_models.insert(0, model_name.replace("models/", ""))
 

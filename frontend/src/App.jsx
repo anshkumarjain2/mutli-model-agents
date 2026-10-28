@@ -485,7 +485,7 @@ const WAYPOINTS = {
   presentationBoard: new THREE.Vector3(10, 0, -2),
 };
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_URL || "https://mutli-model-agents-1.onrender.com/";
 
 // Web Audio sound generator
 const playChime = (type = "send") => {
@@ -987,8 +987,8 @@ What directive shall we dispatch first?`,
         };
         AGENTS_DATA.forEach((a) => {
           if (a.backendId !== "ceo") {
-            const matches = targetDept === "cross" 
-              ? (a.role.includes("Director") || a.role.includes("Chief")) 
+            const matches = targetDept === "cross"
+              ? (a.role.includes("Director") || a.role.includes("Chief"))
               : a.dept.toLowerCase().includes(targetDept.toLowerCase());
             if (matches) {
               next[a.id] = {
@@ -1819,11 +1819,10 @@ What directive shall we dispatch first?`,
                 else if (d.id === "Marketing Division") setCameraView("mktg");
                 else setCameraView("overview");
               }}
-              className={`px-3 py-1 rounded-lg font-medium transition text-[11px] flex items-center gap-1.5 cursor-pointer ${
-                currentFilter === d.id
+              className={`px-3 py-1 rounded-lg font-medium transition text-[11px] flex items-center gap-1.5 cursor-pointer ${currentFilter === d.id
                   ? "bg-cyan-500/20 border border-cyan-500/40 text-cyan-200 font-bold shadow-sm"
                   : "text-slate-400 hover:text-slate-200 hover:bg-slate-900"
-              }`}>
+                }`}>
               {d.color && <span className={`w-2 h-2 rounded-full ${d.color}`} />}
               <span>{d.label}</span>
             </button>
@@ -1836,11 +1835,10 @@ What directive shall we dispatch first?`,
           <button
             onClick={() => setIsSoundEnabled(!isSoundEnabled)}
             title={isSoundEnabled ? "Sound Effects: ON" : "Sound Effects: MUTED"}
-            className={`p-2 rounded-xl border text-xs transition cursor-pointer flex items-center justify-center ${
-              isSoundEnabled
+            className={`p-2 rounded-xl border text-xs transition cursor-pointer flex items-center justify-center ${isSoundEnabled
                 ? "bg-slate-900/90 border-slate-700 text-cyan-300 hover:border-cyan-400"
                 : "bg-slate-950/90 border-slate-800 text-slate-600"
-            }`}>
+              }`}>
             {isSoundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
 
@@ -1848,11 +1846,10 @@ What directive shall we dispatch first?`,
           <button
             onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
             title={isVoiceEnabled ? "Agent Speech Synthesis: ON" : "Agent Speech Synthesis: OFF"}
-            className={`px-2.5 py-1.5 rounded-xl border text-xs font-mono transition cursor-pointer flex items-center gap-1.5 ${
-              isVoiceEnabled
+            className={`px-2.5 py-1.5 rounded-xl border text-xs font-mono transition cursor-pointer flex items-center gap-1.5 ${isVoiceEnabled
                 ? "bg-emerald-950/80 border-emerald-500/50 text-emerald-300 shadow-sm shadow-emerald-500/20"
                 : "bg-slate-900/80 border-slate-800 text-slate-400 hover:border-slate-700"
-            }`}>
+              }`}>
             <span className={`w-1.5 h-1.5 rounded-full ${isVoiceEnabled ? "bg-emerald-400 animate-pulse" : "bg-slate-600"}`} />
             <span className="text-[10px] uppercase font-bold">{isVoiceEnabled ? "Voice ON" : "Voice"}</span>
           </button>
@@ -1869,11 +1866,10 @@ What directive shall we dispatch first?`,
           {/* Roster Drawer Toggle */}
           <button
             onClick={() => setIsRosterOpen(!isRosterOpen)}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border text-xs font-medium transition cursor-pointer shadow-sm ${
-              isRosterOpen
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border text-xs font-medium transition cursor-pointer shadow-sm ${isRosterOpen
                 ? "bg-cyan-950 border-cyan-400 text-cyan-200"
                 : "bg-slate-900/90 border-slate-700 hover:border-cyan-400 text-slate-200"
-            }`}>
+              }`}>
             <Users className="w-4 h-4 text-cyan-400" />
             <span className="hidden md:inline">Squad (21)</span>
           </button>
@@ -1881,11 +1877,10 @@ What directive shall we dispatch first?`,
           {/* Chat Sidebar Toggle */}
           <button
             onClick={() => setIsChatOpen(!isChatOpen)}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer shadow-lg ${
-              isChatOpen
+            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer shadow-lg ${isChatOpen
                 ? "bg-cyan-500/20 border-cyan-400 text-cyan-200"
                 : "bg-gradient-to-r from-cyan-600 to-blue-600 border-cyan-400 text-white shadow-cyan-500/30"
-            }`}>
+              }`}>
             <MessageSquare className="w-4 h-4" />
             <span>{isChatOpen ? "Hide Console" : "Open Console"}</span>
           </button>
@@ -1901,127 +1896,126 @@ What directive shall we dispatch first?`,
               {/* Three.js Canvas Container */}
               <div ref={mountRef} className="w-full h-full" />
 
-          {/* FLOATING 3D NAME & WORKING STATUS TAGS */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-            {AGENTS_DATA.map((agent) => {
-              const work = agentWorkState[agent.id];
-              const isWorking = work?.status === "working";
-              const isDone = work?.status === "completed";
-              const isSelected = chatAgent?.id === agent.id;
+              {/* FLOATING 3D NAME & WORKING STATUS TAGS */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+                {AGENTS_DATA.map((agent) => {
+                  const work = agentWorkState[agent.id];
+                  const isWorking = work?.status === "working";
+                  const isDone = work?.status === "completed";
+                  const isSelected = chatAgent?.id === agent.id;
 
-              return (
-                <div
-                  key={agent.id}
-                  ref={(el) => (tagRefs.current[agent.id] = el)}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    willChange: "transform",
-                    display: "none",
-                  }}
-                  className="pointer-events-auto">
-                  <div className="flex flex-col items-center group cursor-pointer select-none">
-                    {/* ⚡ THE WORKING OF THE COMMAND DISPLAYED AT THE PLACE OF THEIR NAME */}
-                    {isWorking && (
-                      <div
-                        onClick={() => allotTaskToAgent(agent)}
-                        className="mb-1.5 px-3 py-1 rounded-xl bg-gradient-to-r from-cyan-950 via-blue-900 to-indigo-950 border border-cyan-400 text-cyan-100 shadow-2xl shadow-cyan-500/50 backdrop-blur-md flex items-center gap-2 anim-bounce-subtle hover:scale-105 transition-transform"
-                        title="Click to view this agent's active execution">
-                        <span className="relative flex h-2 w-2 shrink-0">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-80" />
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
-                        </span>
-                        <span className="text-[9px] font-bold text-cyan-300 uppercase font-mono tracking-wider">
-                          WORKING:
-                        </span>
-                        <span className="text-[11px] font-semibold text-white max-w-[160px] truncate">
-                          "{work.command}"
-                        </span>
-                        <span className="flex items-center space-x-0.5 ml-0.5">
-                          <span className="w-1 h-1 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                          <span className="w-1 h-1 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                          <span className="w-1 h-1 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                        </span>
+                  return (
+                    <div
+                      key={agent.id}
+                      ref={(el) => (tagRefs.current[agent.id] = el)}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        willChange: "transform",
+                        display: "none",
+                      }}
+                      className="pointer-events-auto">
+                      <div className="flex flex-col items-center group cursor-pointer select-none">
+                        {/* ⚡ THE WORKING OF THE COMMAND DISPLAYED AT THE PLACE OF THEIR NAME */}
+                        {isWorking && (
+                          <div
+                            onClick={() => allotTaskToAgent(agent)}
+                            className="mb-1.5 px-3 py-1 rounded-xl bg-gradient-to-r from-cyan-950 via-blue-900 to-indigo-950 border border-cyan-400 text-cyan-100 shadow-2xl shadow-cyan-500/50 backdrop-blur-md flex items-center gap-2 anim-bounce-subtle hover:scale-105 transition-transform"
+                            title="Click to view this agent's active execution">
+                            <span className="relative flex h-2 w-2 shrink-0">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-80" />
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
+                            </span>
+                            <span className="text-[9px] font-bold text-cyan-300 uppercase font-mono tracking-wider">
+                              WORKING:
+                            </span>
+                            <span className="text-[11px] font-semibold text-white max-w-[160px] truncate">
+                              "{work.command}"
+                            </span>
+                            <span className="flex items-center space-x-0.5 ml-0.5">
+                              <span className="w-1 h-1 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                              <span className="w-1 h-1 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                              <span className="w-1 h-1 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                            </span>
+                          </div>
+                        )}
+
+                        {/* COMPLETED BANNER */}
+                        {isDone && !isWorking && (
+                          <button
+                            type="button"
+                            onClick={() => allotTaskToAgent(agent)}
+                            className="mb-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/95 border border-emerald-400/80 text-emerald-200 shadow-lg shadow-emerald-500/25 backdrop-blur-md flex items-center gap-1.5 text-[10px] cursor-pointer hover:scale-105 transition-transform"
+                            title="Click to view full deliverable in chat">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                            <span className="font-semibold text-white truncate max-w-[140px]">
+                              Finished: "{work.command}"
+                            </span>
+                            <span className="text-[9px] text-emerald-300 font-mono underline">View 💬</span>
+                          </button>
+                        )}
+
+                        {/* MAIN NAME BUTTON BADGE (CLICK ANY CHARACTER TO ALLOT DIRECTIVES) */}
+                        <button
+                          type="button"
+                          onClick={() => allotTaskToAgent(agent)}
+                          title={`Click to directly allot tasks to ${agent.name}`}
+                          className={`flex items-center gap-1.5 px-3 py-1 rounded-full border shadow-2xl text-xs transition-all duration-200 cursor-pointer backdrop-blur-md hover:scale-110 active:scale-95 ${isSelected
+                              ? "bg-cyan-950 border-cyan-400 ring-2 ring-cyan-400/80 text-white shadow-cyan-500/40"
+                              : "bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-100 hover:text-white"
+                            }`}
+                          style={{ borderColor: isSelected ? "#38bdf8" : `${agent.colorHex}aa` }}>
+                          <span className="w-2 h-2 rounded-full animate-pulse shrink-0" style={{ backgroundColor: agent.colorHex }} />
+                          <span className="text-[12px] font-bold whitespace-nowrap">
+                            {agent.avatarIcon} {agent.name}
+                          </span>
+                          <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-black/60 text-slate-300 font-mono border border-white/10 uppercase">
+                            {agent.dept.split(" ")[0]}
+                          </span>
+                        </button>
                       </div>
-                    )}
+                    </div>
+                  );
+                })}
+              </div>
 
-                    {/* COMPLETED BANNER */}
-                    {isDone && !isWorking && (
-                      <button
-                        type="button"
-                        onClick={() => allotTaskToAgent(agent)}
-                        className="mb-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/95 border border-emerald-400/80 text-emerald-200 shadow-lg shadow-emerald-500/25 backdrop-blur-md flex items-center gap-1.5 text-[10px] cursor-pointer hover:scale-105 transition-transform"
-                        title="Click to view full deliverable in chat">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                        <span className="font-semibold text-white truncate max-w-[140px]">
-                          Finished: "{work.command}"
-                        </span>
-                        <span className="text-[9px] text-emerald-300 font-mono underline">View 💬</span>
-                      </button>
-                    )}
-
-                    {/* MAIN NAME BUTTON BADGE (CLICK ANY CHARACTER TO ALLOT DIRECTIVES) */}
-                    <button
-                      type="button"
-                      onClick={() => allotTaskToAgent(agent)}
-                      title={`Click to directly allot tasks to ${agent.name}`}
-                      className={`flex items-center gap-1.5 px-3 py-1 rounded-full border shadow-2xl text-xs transition-all duration-200 cursor-pointer backdrop-blur-md hover:scale-110 active:scale-95 ${
-                        isSelected
-                          ? "bg-cyan-950 border-cyan-400 ring-2 ring-cyan-400/80 text-white shadow-cyan-500/40"
-                          : "bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-100 hover:text-white"
-                      }`}
-                      style={{ borderColor: isSelected ? "#38bdf8" : `${agent.colorHex}aa` }}>
-                      <span className="w-2 h-2 rounded-full animate-pulse shrink-0" style={{ backgroundColor: agent.colorHex }} />
-                      <span className="text-[12px] font-bold whitespace-nowrap">
-                        {agent.avatarIcon} {agent.name}
-                      </span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-black/60 text-slate-300 font-mono border border-white/10 uppercase">
-                        {agent.dept.split(" ")[0]}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Quick Camera Focus Floating Bar (Bottom Left) */}
-          <div className="absolute bottom-4 left-4 z-20 flex items-center gap-1.5 p-1.5 glass-card rounded-2xl border border-white/10 shadow-2xl backdrop-blur-md">
-            <span className="text-[10px] text-slate-400 font-mono px-2 flex items-center gap-1">
-              <Camera className="w-3.5 h-3.5 text-cyan-400" /> Focus Zone:
-            </span>
-            <button
-              onClick={() => setCameraView("overview")}
-              className="px-2.5 py-1 rounded-lg text-[10px] text-slate-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
-              Overview
-            </button>
-            <button
-              onClick={() => setCameraView("ceo")}
-              className="px-2.5 py-1 rounded-lg text-[10px] text-amber-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
-              CEO Suite
-            </button>
-            <button
-              onClick={() => setCameraView("design")}
-              className="px-2.5 py-1 rounded-lg text-[10px] text-rose-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
-              Design
-            </button>
-            <button
-              onClick={() => setCameraView("eng")}
-              className="px-2.5 py-1 rounded-lg text-[10px] text-sky-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
-              Engineering
-            </button>
-            <button
-              onClick={() => setCameraView("prod")}
-              className="px-2.5 py-1 rounded-lg text-[10px] text-purple-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
-              Product
-            </button>
-            <button
-              onClick={() => setCameraView("mktg")}
-              className="px-2.5 py-1 rounded-lg text-[10px] text-amber-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
-              Marketing
-            </button>
-          </div>
+              {/* Quick Camera Focus Floating Bar (Bottom Left) */}
+              <div className="absolute bottom-4 left-4 z-20 flex items-center gap-1.5 p-1.5 glass-card rounded-2xl border border-white/10 shadow-2xl backdrop-blur-md">
+                <span className="text-[10px] text-slate-400 font-mono px-2 flex items-center gap-1">
+                  <Camera className="w-3.5 h-3.5 text-cyan-400" /> Focus Zone:
+                </span>
+                <button
+                  onClick={() => setCameraView("overview")}
+                  className="px-2.5 py-1 rounded-lg text-[10px] text-slate-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
+                  Overview
+                </button>
+                <button
+                  onClick={() => setCameraView("ceo")}
+                  className="px-2.5 py-1 rounded-lg text-[10px] text-amber-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
+                  CEO Suite
+                </button>
+                <button
+                  onClick={() => setCameraView("design")}
+                  className="px-2.5 py-1 rounded-lg text-[10px] text-rose-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
+                  Design
+                </button>
+                <button
+                  onClick={() => setCameraView("eng")}
+                  className="px-2.5 py-1 rounded-lg text-[10px] text-sky-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
+                  Engineering
+                </button>
+                <button
+                  onClick={() => setCameraView("prod")}
+                  className="px-2.5 py-1 rounded-lg text-[10px] text-purple-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
+                  Product
+                </button>
+                <button
+                  onClick={() => setCameraView("mktg")}
+                  className="px-2.5 py-1 rounded-lg text-[10px] text-amber-300 hover:text-white hover:bg-white/10 transition cursor-pointer font-medium">
+                  Marketing
+                </button>
+              </div>
             </>
           ) : (
             /* ══ 2D COMMAND CENTER FALLBACK (When 3D WebGL is disabled or unavailable) ══ */
@@ -2069,11 +2063,10 @@ What directive shall we dispatch first?`,
                     <div
                       key={agent.id}
                       onClick={() => allotTaskToAgent(agent)}
-                      className={`group relative p-4 rounded-2xl glass-card border transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-2xl ${
-                        isSelected
+                      className={`group relative p-4 rounded-2xl glass-card border transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-2xl ${isSelected
                           ? "border-cyan-400 bg-cyan-950/40 shadow-cyan-500/20 ring-1 ring-cyan-400"
                           : "border-white/10 hover:border-cyan-500/40 bg-slate-900/40"
-                      }`}>
+                        }`}>
                       {/* Top Row: Avatar & Status */}
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
@@ -2219,11 +2212,10 @@ What directive shall we dispatch first?`,
                     <button
                       key={agent.id}
                       onClick={() => allotTaskToAgent(agent)}
-                      className={`w-full p-2.5 rounded-xl border text-left transition cursor-pointer flex items-center justify-between group ${
-                        isSelected
+                      className={`w-full p-2.5 rounded-xl border text-left transition cursor-pointer flex items-center justify-between group ${isSelected
                           ? "bg-cyan-950/80 border-cyan-400 text-white"
                           : "bg-slate-900/60 border-white/5 hover:border-cyan-500/40 hover:bg-slate-850"
-                      }`}>
+                        }`}>
                       <div className="flex items-center gap-2.5 min-w-0">
                         <span className="text-xl shrink-0">{agent.avatarIcon}</span>
                         <div className="min-w-0">
@@ -2347,11 +2339,10 @@ What directive shall we dispatch first?`,
                       key={lead.id}
                       type="button"
                       onClick={() => allotTaskToAgent(lead)}
-                      className={`px-2 py-0.5 rounded-lg text-[10px] font-medium flex items-center gap-1 shrink-0 transition cursor-pointer border ${
-                        isSelected
+                      className={`px-2 py-0.5 rounded-lg text-[10px] font-medium flex items-center gap-1 shrink-0 transition cursor-pointer border ${isSelected
                           ? "bg-cyan-500/20 border-cyan-400 text-cyan-200 font-bold shadow-sm"
                           : "bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700"
-                      }`}>
+                        }`}>
                       <span>{lead.avatarIcon}</span>
                       <span>{lead.name.split(" ")[0]}</span>
                       <span className="text-[8px] opacity-60">({lead.dept.split(" ")[0]})</span>
@@ -2368,11 +2359,10 @@ What directive shall we dispatch first?`,
                   key={msg.id}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} anim-float-up`}>
                   <div
-                    className={`max-w-[94%] rounded-2xl p-4 text-xs shadow-xl leading-relaxed ${
-                      msg.role === "user"
+                    className={`max-w-[94%] rounded-2xl p-4 text-xs shadow-xl leading-relaxed ${msg.role === "user"
                         ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-br-sm"
                         : "bg-slate-900/95 border border-white/10 text-slate-200 rounded-bl-sm"
-                    }`}>
+                      }`}>
                     {/* Agent Message Header */}
                     {msg.role === "agent" && (
                       <div className="flex items-center justify-between gap-2 mb-2.5 pb-2 border-b border-white/10">
@@ -2427,9 +2417,8 @@ What directive shall we dispatch first?`,
 
                     {/* Message Meta Info */}
                     <div
-                      className={`mt-2.5 pt-2 border-t border-white/5 flex items-center gap-2 text-[9px] font-mono ${
-                        msg.role === "user" ? "text-cyan-200/70 justify-end" : "text-slate-500"
-                      }`}>
+                      className={`mt-2.5 pt-2 border-t border-white/5 flex items-center gap-2 text-[9px] font-mono ${msg.role === "user" ? "text-cyan-200/70 justify-end" : "text-slate-500"
+                        }`}>
                       <span>{msg.time}</span>
                       {msg.duration && <span>⏱ {msg.duration}s</span>}
                       {msg.memoryId && <span>💾 Memory #{msg.memoryId}</span>}
