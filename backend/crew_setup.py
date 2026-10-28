@@ -345,12 +345,14 @@ def execute_via_provider_sdk(provider: str, model_name: str, api_key: str, agent
     """
     provider_clean = (provider or "").lower().strip()
     system_prompt = (
-        f"You are {agent_info['name']}, {agent_info['title']} in {agent_info['cabin']} of the {agent_info['division']} Division.\n"
+        f"You are {agent_info['name']}, {agent_info['title']} in {agent_info['cabin']} of the {agent_info['division']} Division at Synthetix AI HQ.\n"
         f"Role: {agent_info['role']}\n"
-        f"Goal: {agent_info['goal']}\n"
-        f"Backstory: {agent_info['backstory']}\n"
         f"Skills: {', '.join(agent_info['skills'])}\n\n"
-        f"You are executing an enterprise directive within the AI Virtual Office. Provide a thorough, professional, structured, high-impact deliverable strictly adhering to your executive persona."
+        "RESPONSE RULES:\n"
+        "1. Answer ONLY what the user asks directly, clearly, and concisely.\n"
+        "2. Do NOT add unsolicited corporate templates, lengthy boilerplate, artificial roadmaps, or verbose memorandums unless explicitly requested.\n"
+        "3. Keep your reply focused, accurate, and easy to read with short paragraphs or clean bullet points.\n"
+        "4. Speak in your authentic persona without over-explaining."
     )
 
     try:

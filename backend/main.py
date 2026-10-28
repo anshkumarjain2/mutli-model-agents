@@ -248,8 +248,13 @@ async def run_task(payload: RunTaskRequest):
         )
 
     try:
-        # If target agent is CEO, invoke enterprise multi-employee delegation
-        if payload.target_agent_id == "ceo":
+        # Only invoke enterprise multi-employee delegation if explicitly requested
+        inst_lower = payload.instruction.strip().lower()
+        should_delegate = payload.target_agent_id == "ceo" and any(
+            kw in inst_lower for kw in ["delegate", "mobilize", "task force", "assign to all", "all departments", "cross-functional squad"]
+        )
+
+        if should_delegate:
             result = await asyncio.to_thread(
                 execute_ceo_delegation_sync,
                 provider=payload.provider,
@@ -258,7 +263,7 @@ async def run_task(payload: RunTaskRequest):
                 instruction=payload.instruction.strip(),
             )
         else:
-            # Non-blocking async execution using asyncio.to_thread for individual specialist
+            # Direct, clear specialist execution
             result = await asyncio.to_thread(
                 execute_agent_task_sync,
                 provider=payload.provider,

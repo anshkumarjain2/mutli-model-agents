@@ -212,7 +212,7 @@ def call_gemini_api(prompt: str, system_prompt: str = "") -> Optional[str]:
     if not api_key:
         return None
 
-    candidate_models = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-2.5-flash", "gemini-1.5-pro"]
+    candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-pro"]
     for m in candidate_models:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={api_key.strip()}"
