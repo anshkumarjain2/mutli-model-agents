@@ -1,10 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
   html, body, #root {
     margin: 0;
     padding: 0;
@@ -12,64 +15,155 @@
     height: 100%;
     overflow: hidden;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: #0a0d14;
+    background: #07090e;
     color: #f1f5f9;
   }
 }
 
+/* Glassmorphism Styles */
 .glass-panel {
-  background: rgba(13, 18, 30, 0.78);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(11, 17, 30, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-card {
-  background: rgba(15, 23, 42, 0.90);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13, 20, 36, 0.94);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(59, 130, 246, 0.12);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
 }
 
+.glass-pill {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom Clean Scrollbars */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(10, 15, 26, 0.4);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.45);
-  border-radius: 4px;
+  background: rgba(71, 85, 105, 0.5);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.7);
+  background: rgba(148, 163, 184, 0.8);
 }
 
-.code-tab.active {
-  background: rgba(59, 130, 246, 0.2);
-  color: #60a5fa;
-  border-bottom: 2px solid #3b82f6;
+/* Markdown Deliverable Typography */
+.deliverable-content h1, 
+.deliverable-content h2, 
+.deliverable-content h3, 
+.deliverable-content h4 {
+  color: #38bdf8;
+  font-weight: 700;
+  margin-top: 0.6rem;
+  margin-bottom: 0.35rem;
+  font-family: 'Inter', sans-serif;
 }
 
-.pulse-dot {
-  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.deliverable-content h1 { font-size: 1.15rem; }
+.deliverable-content h2 { font-size: 1.05rem; }
+.deliverable-content h3 { font-size: 0.95rem; }
+.deliverable-content h4 { font-size: 0.85rem; }
+
+.deliverable-content p {
+  margin-bottom: 0.5rem;
+  line-height: 1.55;
+  color: #cbd5e1;
 }
 
-@keyframes pulse-ring {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+.deliverable-content ul, 
+.deliverable-content ol {
+  margin-left: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.deliverable-content li {
+  margin-bottom: 0.25rem;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+.deliverable-content strong {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.deliverable-content code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.35rem;
+  font-size: 0.82em;
+}
+
+.deliverable-content pre {
+  background: #080c16;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 0.65rem;
+  padding: 0.75rem 1rem;
+  margin: 0.65rem 0;
+  overflow-x: auto;
+}
+
+.deliverable-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #a5f3fc;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* Animations */
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.anim-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
 }
 
 @keyframes float-up {
-  from { opacity: 0; transform: translate(-50%, 6px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .anim-float-up {
   animation: float-up 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+.anim-pulse-ring {
+  animation: pulse-ring 1.8s ease-in-out infinite;
+}
+
+@keyframes chatOpen {
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.anim-chat-open {
+  animation: chatOpen 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

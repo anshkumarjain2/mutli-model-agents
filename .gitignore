@@ -3,6 +3,8 @@ node_modules/
 backend/venv/
 venv/
 .env.local
+.env
+backend/.env
 
 # Python cache & artifacts
 __pycache__/
